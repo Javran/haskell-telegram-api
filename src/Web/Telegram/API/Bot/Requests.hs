@@ -43,6 +43,7 @@ module Web.Telegram.API.Bot.Requests
     , AddStickerToSetRequest         (..)
     , EditMessageLiveLocationRequest (..)
     , StopMessageLiveLocationRequest (..)
+    , DeleteMessageRequest(..)
      -- * Functions
     , localFileUpload
     , setWebhookRequest
@@ -1071,5 +1072,19 @@ instance ToJSON StopMessageLiveLocationRequest where
 instance FromJSON StopMessageLiveLocationRequest where
   parseJSON = parseJsonDrop 14
 
+data DeleteMessageRequest =
+  DeleteMessageRequest
+  { del_msg_chat_id :: ChatId
+  , del_msg_message_id :: Int
+  } deriving (Show, Generic)
+
+-- the magic number 8 is length of "del_msg_"
+instance ToJSON DeleteMessageRequest where
+  toJSON = toJsonDrop 8
+
+instance FromJSON DeleteMessageRequest where
+  parseJSON = parseJsonDrop 8
+
 tshow :: Show a => a -> Text
 tshow = T.pack . show
+

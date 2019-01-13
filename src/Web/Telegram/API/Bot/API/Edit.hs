@@ -18,6 +18,7 @@ module Web.Telegram.API.Bot.API.Edit
   , editInlineMessageReplyMarkupM
   , editMessageLiveLocationM
   , stopMessageLiveLocationM
+  , deleteMessageM
     -- * API
   , TelegramBotEditAPI
   , editApi
@@ -58,6 +59,9 @@ type TelegramBotEditAPI =
     :<|> TelegramToken :> "stopMessageLiveLocation"
          :> ReqBody '[JSON] StopMessageLiveLocationRequest
          :> Post '[JSON] (Response Bool)
+    :<|> TelegramToken :> "deleteMessage"
+         :> ReqBody '[JSON] DeleteMessageRequest
+         :> Post '[JSON] (Response Bool)
 
 
 -- | Proxy for Thelegram Bot API
@@ -72,6 +76,7 @@ editMessageCaption__       :: Token -> EditMessageCaptionRequest -> ClientM (Res
 editMessageReplyMarkup__   :: Token -> EditMessageReplyMarkupRequest -> ClientM (Response Bool)
 editMessageLiveLocation_   :: Token -> EditMessageLiveLocationRequest -> ClientM (Response Bool)
 stopMessageLiveLocation_   :: Token -> StopMessageLiveLocationRequest -> ClientM (Response Bool)
+deleteMessage_ :: Token -> DeleteMessageRequest -> ClientM (Response Bool)
 editMessageText_
   :<|> editMessageCaption_
   :<|> editMessageReplyMarkup_
@@ -80,6 +85,7 @@ editMessageText_
   :<|> editMessageReplyMarkup__
   :<|> editMessageLiveLocation_
   :<|> stopMessageLiveLocation_
+  :<|> deleteMessage_
      = client editApi
 
 -- | Use this method to edit text messages sent by the bot. On success, the edited 'Message' is returned, otherwise True is returned.
@@ -136,3 +142,6 @@ editMessageLiveLocationM = run_ editMessageLiveLocation_
 -- | Use this method to stop updating a live location message sent by the bot or via the bot (for inline bots) before live_period expires.
 stopMessageLiveLocationM :: StopMessageLiveLocationRequest -> TelegramClient (Response Bool)
 stopMessageLiveLocationM = run_ stopMessageLiveLocation_
+
+deleteMessageM :: DeleteMessageRequest -> TelegramClient (Response Bool)
+deleteMessageM = run_ deleteMessage_
