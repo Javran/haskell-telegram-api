@@ -53,6 +53,8 @@ library
                      , servant
                      , servant-client
                      , servant-client-core
+                     , servant-http-streams
+                     , binary
                      , mtl
                      , text
                      , transformers
@@ -87,6 +89,8 @@ test-suite telegram-api-test
                      , servant
                      , servant-client
                      , servant-client-core
+                     , servant-http-streams
+                     , binary
                      , telegram-api
                      , http-types
                      , filepath
